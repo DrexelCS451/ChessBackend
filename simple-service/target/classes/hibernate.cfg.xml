@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://ap-cdbr-azure-east-c.cloudapp.net</property>
+        <property name="hibernate.connection.username">ba0fcbd109f180</property>
+        <property name="hibernate.connection.password">eacc9741</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</property>
+        <property name="hibernate.default_schema">acsm_ad5421b6efe19ee</property>
+        <property name="show_sql">true</property>
+        <mapping class="com.example.user.DBUser"/>
+    </session-factory>
+</hibernate-configuration>
