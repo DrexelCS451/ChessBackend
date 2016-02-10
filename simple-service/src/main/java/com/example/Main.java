@@ -38,10 +38,11 @@ public class Main {
         final HttpServer server = startServer();
         System.out.println(String.format("Jersey app started with WADL available at "
                 + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
-        System.in.read();
-        server.stop();
-        DbUtil d = new DbUtil();
-        d.create();
+//        DbUtil d = new DbUtil();
+//        try {
+//            d.create();
+//        }catch (Exception e){}
+    System.in.read();
     }
 }
 

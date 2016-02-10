@@ -1,6 +1,6 @@
 package com.example;
 
-import com.example.user.DBUser;
+import com.example.Models.DBUser;
 import com.example.util.HibernateUtil;
 import org.hibernate.Session;
 
@@ -18,14 +18,13 @@ public class DbUtil {
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         session.beginTransaction();
-        DBUser user = new DBUser();
+        DBUser user = new DBUser("testymctestersonsonson");
 
-        user.setUserId(100);
-        user.setFirstname("Hibernate101");
-        user.setLastname("system");
+//      Test user stuff
 
         session.save(user);
         session.getTransaction().commit();
+        session.close();
     }
 
 }
