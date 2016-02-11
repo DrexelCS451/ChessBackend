@@ -34,6 +34,9 @@ public class UserResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String get(@QueryParam("username") String username) {
+        if(username == null){
+            return "{\"ERROR\" : \"No user provided\"}";
+        }
         Session session = HibernateUtil.getSessionFactory().openSession();
         Gson gson = new Gson();
         session.beginTransaction();
