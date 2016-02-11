@@ -72,7 +72,7 @@ public class UserResource {
         System.out.println(username);
         session.getTransaction().commit();
         session.close();
-        return "{\"Success\":\"User "+username+" added to database\"}";
+        return "{\"Success\":\"User "+ username +" added to database\"}";
 
     }
 }
