@@ -51,6 +51,7 @@
     <orderEntry type="library" name="Maven: org.jboss.logging:jboss-logging:3.2.1.Final" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml:classmate:1.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-simple:1.6.1" level="project" />
+    <orderEntry type="library" name="Maven: com.google.code.gson:gson:1.7.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.9" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.1" level="project" />
   </component>

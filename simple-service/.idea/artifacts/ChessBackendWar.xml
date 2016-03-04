@@ -1,0 +1,6 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="ChessBackendWar">
+    <output-path>$PROJECT_DIR$/classes/artifacts/ChessBackendWar</output-path>
+    <root id="archive" name="ChessBackendWar.war" />
+  </artifact>
+</component>
