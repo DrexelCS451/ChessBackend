@@ -1,0 +1,10 @@
+
+*.class
+
+*.jar
+
+*.class
+
+*.class
+
+simple-service/target/classes/com/example/MyResource.class
