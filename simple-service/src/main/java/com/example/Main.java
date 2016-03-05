@@ -42,7 +42,9 @@ public class Main {
 //        try {
 //            d.create();
 //        }catch (Exception e){}
+
     System.in.read();
+        server.shutdown();
     }
 }
 
