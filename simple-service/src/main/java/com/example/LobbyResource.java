@@ -34,22 +34,36 @@ public class LobbyResource {
     @Produces(MediaType.APPLICATION_JSON)
     public String get() {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        JsonParser parser = new JsonParser();
-        session.beginTransaction();
-        Gson gson = new Gson();
-       ;
+        try {
+            JsonParser parser = new JsonParser();
+            session.beginTransaction();
+            Gson gson = new Gson();
 
-
-        return gson.toJson( session.createCriteria(LobbyUser.class).list() ).toString();
+            return gson.toJson(session.createCriteria(LobbyUser.class).list()).toString();
+        }finally {
+            session.close();
+        }
     }
     /**
      *  Posts a new user to the database
      */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public String post(@PathParam("userId") String userId){
-
-        return "hello world";
+    public String post(@QueryParam("userId") String userId){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Gson gson = new Gson();
+        try {
+            JsonParser parser = new JsonParser();
+            session.beginTransaction();
+            session.save(new LobbyUser(Integer.parseInt(userId)));
+            session.getTransaction().commit();
+            return gson.toJson("Success: User added to lobby");
+        }catch (NumberFormatException e){
+            return gson.toJson("Failure: Invalid userId");
+        }
+        finally {
+            session.close();
+        }
     }
 
 }
