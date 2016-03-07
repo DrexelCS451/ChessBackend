@@ -1,21 +1,16 @@
-package com.example;
+package com.group6chess;
 
-import com.example.Models.DBUser;
-import com.example.util.HibernateUtil;
+import com.group6chess.Models.DBUser;
+import com.group6chess.util.HibernateUtil;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.hibernate.Criteria;
-import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.Restrictions;
 import com.google.gson.Gson;
-import org.omg.CORBA.Object;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.Dictionary;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -72,6 +67,6 @@ public class UserResource {
         System.out.println(username);
         session.getTransaction().commit();
         session.close();
-        return "{\"Success\":\"User "+ username +" added to database\"}";
+        return "{\"Success\":"+ newUser.getUserId()+ "}";
     }
 }
