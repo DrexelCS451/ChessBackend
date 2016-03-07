@@ -7,8 +7,8 @@ import javax.persistence.*;
 public class DBUser implements java.io.Serializable {
 
 	@Id
-	@Column(name = "id", unique = true, nullable = false, precision = 5, scale = 0)
-	private int userId;
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	protected int id;
 
 	@Column(name = "username", nullable = false, length = 20, unique = true)
 	private String username;
@@ -16,7 +16,7 @@ public class DBUser implements java.io.Serializable {
 	public DBUser(){}
 
 	public DBUser(int userId, String username) {
-		this.userId = userId;
+		this.id = userId;
 		this.username = username;
 	}
 	public DBUser(String username){
@@ -24,11 +24,11 @@ public class DBUser implements java.io.Serializable {
 	}
 
 	public int getUserId() {
-		return this.userId;
+		return this.id;
 	}
 
 	public void setUserId(int userId) {
-		this.userId = userId;
+		this.id = userId;
 	}
 
 	public String getUsername() {

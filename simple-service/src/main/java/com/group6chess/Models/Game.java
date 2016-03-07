@@ -1,9 +1,6 @@
 package com.group6chess.Models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by Matt on 3/5/16.
@@ -15,6 +12,7 @@ public class Game {
     public static enum State { player1, player2, player1Win, player2Win, stalemate }
 
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     protected int id;
 
     @Column(name = "player1")

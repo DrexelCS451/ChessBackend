@@ -27,7 +27,7 @@ public class RequestResource {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String get(@QueryParam("playerId") String playerId) {
+    public String get(@QueryParam("userId") String playerId) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Gson gson = new Gson();
         try {
