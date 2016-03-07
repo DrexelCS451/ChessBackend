@@ -1,26 +1,16 @@
-package com.example;
+package com.group6chess;
 
 /**
  * Created by Matt on 3/4/16.
  */
-import com.example.Models.DBUser;
-import com.example.Models.LobbyUser;
-import com.example.util.HibernateUtil;
-import com.google.gson.JsonObject;
+import com.group6chess.Models.LobbyUser;
+import com.group6chess.util.HibernateUtil;
 import com.google.gson.JsonParser;
-import org.hibernate.Criteria;
-import org.hibernate.Hibernate;
-import org.hibernate.HibernateException;
 import org.hibernate.classic.Session;
-import org.hibernate.criterion.Restrictions;
 import com.google.gson.Gson;
-import org.omg.CORBA.Object;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.Dictionary;
-import java.util.HashMap;
-import java.util.List;
 
 @Path("lobby")
 public class LobbyResource {
@@ -59,7 +49,7 @@ public class LobbyResource {
             session.getTransaction().commit();
             return gson.toJson("Success: User added to lobby");
         }catch (NumberFormatException e){
-            return gson.toJson("Failure: Invalid userId");
+            return gson.toJson("Fail: Invalid userId");
         }
         finally {
             session.close();

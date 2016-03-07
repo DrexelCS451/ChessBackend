@@ -1,7 +1,7 @@
-package com.example;
+package com.group6chess;
 
-import com.example.Models.DBUser;
-import com.example.util.HibernateUtil;
+import com.group6chess.Models.DBUser;
+import com.group6chess.util.HibernateUtil;
 import org.hibernate.Session;
 
 /**

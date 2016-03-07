@@ -1,4 +1,4 @@
-package com.example.Models;
+package com.group6chess.Models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @Table(name = "game")
 public class Game {
 
-    public static enum Turn { player1, player2 }
+    public static enum State { player1, player2, player1Win, player2Win, stalemate }
 
     @Id
     protected int id;
@@ -26,8 +26,8 @@ public class Game {
     @Column(name = "gameBoard")
     protected String encodedGameBoard;
 
-    @Column(name = "turn")
-    protected Turn turn;
+    @Column(name = "status")
+    protected State state;
 
     protected final static String INITIAL_GAME_BOARD =
             "0,0,BLACK_ROOK\n" +
@@ -99,19 +99,19 @@ public class Game {
         this.playerOneId = playerOneId;
         this.playerTwoId = playerTwoId;
         this.encodedGameBoard = INITIAL_GAME_BOARD;
-        this.turn = Turn.player1;
+        this.state = State.player1;
     }
 
     public Game() {
 
     }
 
-    public Turn getTurn() {
-        return turn;
+    public State getTurn() {
+        return state;
     }
 
-    public void setTurn(Turn turn) {
-        this.turn = turn;
+    public void setTurn(State turn) {
+        this.state = turn;
     }
 
     public int getId() {

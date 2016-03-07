@@ -1,24 +1,15 @@
-package com.example;
+package com.group6chess;
 
-import com.example.Models.DBUser;
-import com.example.Models.Game;
-import com.example.Models.LobbyUser;
-import com.example.Models.Request;
-import com.example.util.HibernateUtil;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import org.hibernate.Criteria;
-import org.hibernate.Hibernate;
-import org.hibernate.HibernateException;
+import com.group6chess.Models.Game;
+import com.group6chess.Models.LobbyUser;
+import com.group6chess.Models.Request;
+import com.group6chess.util.HibernateUtil;
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.Restrictions;
 import com.google.gson.Gson;
-import org.omg.CORBA.Object;
 
-import javax.persistence.Lob;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,14 +36,14 @@ public class RequestResource {
                     .add(Restrictions.eq("userId", Integer.parseInt(playerId))).list();
             if (result.isEmpty()) {
                 session.close();
-                return gson.toJson("Failure: player not requested for match");
+                return gson.toJson("Fail: player not requested for match");
             } else {
                 String returnVal = new String("Success: " + result.get(0).toString());
                 session.close();
                 return gson.toJson(returnVal);
             }
         }catch (NumberFormatException e) {
-            return gson.toJson("Failure: invalid user id");
+            return gson.toJson("Fail: invalid user id");
         }finally {
 //            session.close();
 //            HibernateUtil.getSessionFactory().close();
@@ -84,7 +75,7 @@ public class RequestResource {
             return gson.toJson("Success: test");
 
         }catch (NumberFormatException e) {
-            return gson.toJson("Failure: invalid user id");
+            return gson.toJson("Fail: invalid user id");
         }finally {
 //            session.close();
 //            HibernateUtil.getSessionFactory().close();
@@ -134,7 +125,7 @@ public class RequestResource {
 
         }catch (NumberFormatException e)
         {
-            return gson.toJson("Failure: invalid input");
+            return gson.toJson("Fail: invalid input");
         }
     }
 

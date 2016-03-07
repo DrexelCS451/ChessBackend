@@ -12,9 +12,9 @@
         <property name="hibernate.default_schema">ChessBackend</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="show_sql">true</property>
-        <mapping class="com.example.Models.Request"/>
-        <mapping class="com.example.Models.DBUser"/>
-        <mapping class="com.example.Models.Game"/>
-        <mapping class="com.example.Models.LobbyUser"/>
+        <mapping class="com.group6chess.Models.Request"/>
+        <mapping class="com.group6chess.Models.DBUser"/>
+        <mapping class="com.group6chess.Models.Game"/>
+        <mapping class="com.group6chess.Models.LobbyUser"/>
     </session-factory>
 </hibernate-configuration>

@@ -8,3 +8,5 @@
 *.class
 
 simple-service/target/classes/com/example/MyResource.class
+
+*.class

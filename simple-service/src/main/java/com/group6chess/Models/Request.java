@@ -1,4 +1,4 @@
-package com.example.Models;
+package com.group6chess.Models;
 
 import javax.persistence.*;
 

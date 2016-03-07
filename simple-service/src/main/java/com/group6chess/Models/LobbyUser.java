@@ -1,7 +1,6 @@
-package com.example.Models;
+package com.group6chess.Models;
 
 import javax.persistence.*;
-import java.util.List;
 
 /**
  * Created by Matt on 2/11/16.
