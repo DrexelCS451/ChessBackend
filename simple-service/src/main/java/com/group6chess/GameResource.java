@@ -24,6 +24,7 @@ public class GameResource {
     @GET
     public String get(@QueryParam("userId") String id){
         Session session = HibernateUtil.getSessionFactory().openSession();
+        session.clear();
         Gson gson = new Gson();
 
         try {
@@ -70,7 +71,6 @@ public class GameResource {
             //Got a good game board
             game.setEncodedGameBoard(board);
             game.setState(boardState);
-
             session.save(game);
             return new Gson().toJson("Success: game board updated");
         }
