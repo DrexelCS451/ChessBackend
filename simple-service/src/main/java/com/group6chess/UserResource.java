@@ -30,7 +30,7 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     public String get(@QueryParam("username") String username) {
         if(username == null){
-            return "{\"ERROR\" : \"No user provided\"}";
+            return "{\"status\" : false}";
         }
         Session session = HibernateUtil.getSessionFactory().openSession();
         Gson gson = new Gson();
@@ -40,9 +40,9 @@ public class UserResource {
             List result = session.createCriteria(DBUser.class)
                     .add(Restrictions.eq("username", username)).list();
             if (!result.isEmpty()) {
-                return gson.toJson(result);
+                return "{\"status\" : true}";
             } else {
-                return "{\"ERROR\" : \"Could not find user!\"}";
+                return  "{\"status\" : false}";
             }
         } catch (HibernateException e) {
             return e.getMessage();
@@ -67,6 +67,6 @@ public class UserResource {
         System.out.println(username);
         session.getTransaction().commit();
         session.close();
-        return "{\"Success\":"+ newUser.getUserId()+ "}";
+        return "{\"userId\":"+ newUser.getUserId()+ "}";
     }
 }
