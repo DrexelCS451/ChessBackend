@@ -10,9 +10,12 @@ import com.google.gson.JsonParser;
 import org.hibernate.classic.Session;
 import com.google.gson.Gson;
 import org.hibernate.criterion.Restrictions;
+import org.omg.CORBA.Object;
 
+import javax.persistence.Lob;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
 
 @Path("lobby")
 public class LobbyResource {
@@ -56,5 +59,31 @@ public class LobbyResource {
             return gson.toJson("Fail: Invalid userId");
         }
     }
+
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    public String delete(@QueryParam("userId") String userId){
+        try {
+            final Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            List result = session.createCriteria(LobbyUser.class)
+                    .add( Restrictions.eq("userId" , Integer.parseInt(userId))).list();
+
+            for(int i = 0; i < result.size(); i++){
+                session.delete(result.get(0));
+            }
+            session.getTransaction().commit();
+
+//            String hql = "delete from lobby where username= :username";
+//            session.createQuery(hql).setString("username", userId).executeUpdate();
+            session.close();
+            return new Gson().toJson("Success: user deleted");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return new Gson().toJson("Fail: User not found");
+        }
+    }
+
 
 }
