@@ -104,21 +104,22 @@ public class RequestResource {
                 Request request = (Request) result.get(0);
                 final Game newGame = new Game(request.getPlayer1() , request.getPlayer2());
 
-                request.setAccepted(true);
+                request.setState(Request.State.accepted);
 
                 session.save(request);
                 session.save(newGame);
+                session.flush();
 
-                session.getTransaction().commit();
                 Map<String,String> jsonThing = new HashMap<String, String>() {{
-                    put("gameId: ", Integer.toString(newGame.getId()));
+                    put("gameId"  , Integer.toString(newGame.getId()));
                     put("player1" , Integer.toString(newGame.getPlayerOneId()));
                     put("player2" , Integer.toString(newGame.getPlayerTwoId()));
+                    put("state"   , newGame.getTurn().name());
                     put("board"   , newGame.getEncodedGameBoard());
                 }};
 
                 String test = gson.toJson(jsonThing);
-
+                session.getTransaction().commit();
                 return gson.toJson(jsonThing.toString());
 
             }

@@ -9,7 +9,10 @@ import javax.persistence.*;
 @Table(name = "request")
 public class Request {
 
+    public enum State {requested, accepted, denied}
+
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private int Id;
 
     @Column(name = "player1", nullable = false)
@@ -18,24 +21,18 @@ public class Request {
     @Column(name = "player2", nullable = true)
     private int player2;
 
-    @Column(name = "accepted", nullable = false)
-    private boolean accepted;
+    @Column(name = "state", nullable = false)
+    private State state;
+
 
     public Request() {
-    }
 
-    public boolean isAccepted() {
-        return accepted;
-    }
-
-    public void setAccepted(boolean accepted) {
-        this.accepted = accepted;
     }
 
     public Request(int player1, int player2) {
         this.player1 = player1;
         this.player2 = player2;
-        this.accepted = false;
+        this.state = State.requested;
     }
 
     public int getId() {
@@ -60,5 +57,13 @@ public class Request {
 
     public void setPlayer2(int player2) {
         this.player2 = player2;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 }

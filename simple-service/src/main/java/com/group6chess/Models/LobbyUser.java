@@ -12,6 +12,7 @@ import javax.persistence.*;
 public class LobbyUser {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
 
     @Column(name = "userId", nullable = false)

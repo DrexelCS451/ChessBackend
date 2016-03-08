@@ -24,7 +24,7 @@ public class Game {
     @Column(name = "gameBoard")
     protected String encodedGameBoard;
 
-    @Column(name = "status")
+    @Column(name = "state")
     protected State state;
 
     protected final static String INITIAL_GAME_BOARD =
