@@ -1,16 +1,13 @@
 package com.group6chess;
 
 import com.group6chess.Models.Game;
-import com.group6chess.Models.LobbyUser;
 import com.group6chess.util.HibernateUtil;
-import com.google.gson.JsonParser;
-import org.hibernate.HibernateException;
 import org.hibernate.classic.Session;
 import com.google.gson.Gson;
 import org.hibernate.criterion.Restrictions;
 import java.util.List;
 
-import javax.validation.constraints.Null;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
@@ -47,5 +44,46 @@ public class GameResource {
             return gson.toJson("Fail: Failed");
         }
     }
+
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    public String post(
+            @QueryParam("gameId")     String gameId,
+            @QueryParam("board")      String board,
+            @QueryParam("boardState") String boardState)
+    {
+
+        System.out.println(gameId + "\n" + board + "\n" + boardState);
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Game game = (Game) session.get(Game.class, Integer.parseInt(gameId));
+
+        if (game == null)
+        {
+            //Bad game board
+            return new Gson().toJson("Fail: bad board input");
+        }
+        else
+        {
+            //Got a good game board
+            game.setEncodedGameBoard(board);
+            if (!boardState.equals(null)) {
+                if      (game.getTurn() == Game.State.player1) game.setTurn(Game.State.player2);
+                else if (game.getTurn() == Game.State.player2) game.setTurn(Game.State.player1);
+            }
+
+
+
+            session.save(game);
+            return new Gson().toJson("Success: game board updated");
+        }
+
+
+
+    }
+
+
 
 }
