@@ -70,7 +70,7 @@ public class LobbyResource {
                     .add( Restrictions.eq("userId" , Integer.parseInt(userId))).list();
 
             for(int i = 0; i < result.size(); i++){
-                session.delete(result.get(0));
+                session.delete(result.get(i));
             }
             session.getTransaction().commit();
 

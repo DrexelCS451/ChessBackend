@@ -22,23 +22,30 @@ import javax.ws.rs.core.MediaType;
 public class GameResource {
 
 
+
+
     @GET
-    public Game get(@QueryParam("gameId") String game){
+    public String get(@QueryParam("userId") String id){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Gson gson = new Gson();
 
         try {
             session.beginTransaction();
             List result = session.createCriteria(Game.class)
-                    .add(Restrictions.eq("id",game)).list();
-            
-            return (Game) result.get(0);
+                    .add(Restrictions.or(Restrictions.eq("playerOneId", id), Restrictions.eq("playerTwoId", id))).list();
+            if(!result.isEmpty())
+            {
+                Gson g = new Gson();
+               return g.toJson(result.get(0));
+            }
+            else
+            {
+                return gson.toJson("Fail: Failed");
+            }
+
         }catch (Exception e){
-            e.printStackTrace();
+            return gson.toJson("Fail: Failed");
         }
-
-
-        return null;
     }
 
 }
