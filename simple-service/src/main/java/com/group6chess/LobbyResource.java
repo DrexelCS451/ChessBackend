@@ -46,7 +46,6 @@ public class LobbyResource {
     @Produces(MediaType.APPLICATION_JSON)
     public String post(@QueryParam("userId") String userId){
         Session session = HibernateUtil.getSessionFactory().openSession();
-        session.clear();
         Gson gson = new Gson();
         try {
             JsonParser parser = new JsonParser();

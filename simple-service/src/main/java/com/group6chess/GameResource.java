@@ -24,7 +24,6 @@ public class GameResource {
     @GET
     public String get(@QueryParam("userId") String id){
         Session session = HibernateUtil.getSessionFactory().openSession();
-        session.clear();
         Gson gson = new Gson();
 
         try {
@@ -57,7 +56,6 @@ public class GameResource {
         System.out.println(gameId + "\n" + board + "\n" + boardState);
 
         Session session = HibernateUtil.getSessionFactory().openSession();
-        session.clear();
         session.beginTransaction();
         Game game = (Game) session.get(Game.class, Integer.parseInt(gameId));
 

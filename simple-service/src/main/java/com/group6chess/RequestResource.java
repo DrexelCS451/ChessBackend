@@ -29,7 +29,6 @@ public class RequestResource {
     @Produces(MediaType.APPLICATION_JSON)
     public String get(@QueryParam("userId") String userId) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        session.clear();
         Gson gson = new Gson();
         try {
             session.beginTransaction();
@@ -91,7 +90,6 @@ public class RequestResource {
     @Produces(MediaType.APPLICATION_JSON)
     public String put(@QueryParam("requestId") String requestId, @QueryParam("accept") String accept){
         Session session = HibernateUtil.getSessionFactory().openSession();
-        session.clear();
         Gson gson = new Gson();
         try {
             session.beginTransaction();
