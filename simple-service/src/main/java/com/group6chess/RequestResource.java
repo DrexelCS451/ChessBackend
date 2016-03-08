@@ -37,7 +37,7 @@ public class RequestResource {
             session.beginTransaction();
             List result = session.createCriteria(Request.class)
                     .add(Restrictions.eq("player2", Integer.parseInt(userId)))
-                    .add(Restrictions.eq("state", "0")).list();
+                    .add(Restrictions.eq("state", Request.State.requested)).list();
             if (result.isEmpty())
             {
                 session.close();
@@ -47,7 +47,7 @@ public class RequestResource {
 
                 return gson.toJson(result).toString();
             }
-        }catch (NumberFormatException e)
+        }catch (Exception e)
         {
                         session.close();
             return gson.toJson("Fail: invalid user id");

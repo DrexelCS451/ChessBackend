@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Table(name = "request")
 public class Request {
 
-    public enum State {requested, accepted, denied}
+    public static enum State {requested, accepted, denied}
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
