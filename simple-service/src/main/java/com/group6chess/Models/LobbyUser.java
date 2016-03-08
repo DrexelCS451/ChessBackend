@@ -18,6 +18,8 @@ public class LobbyUser {
     @Column(name = "userId", nullable = false)
     private int userId;
 
+    private DBUser user;
+
     public LobbyUser() {
     }
 

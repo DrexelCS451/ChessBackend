@@ -29,7 +29,7 @@ public class LobbyResource {
             session.beginTransaction();
             Gson gson = new Gson();
 
-            return gson.toJson(session.createCriteria(LobbyUser.class).list()).toString();
+            return gson.toJson(session.createCriteria(LobbyUser.class).list());
         }finally {
             session.close();
         }

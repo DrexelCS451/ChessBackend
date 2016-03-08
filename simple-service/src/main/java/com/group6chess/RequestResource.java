@@ -27,24 +27,28 @@ public class RequestResource {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String get(@QueryParam("userId") String playerId) {
+    public String get(@QueryParam("userId") String userId) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Gson gson = new Gson();
         try {
             session.beginTransaction();
-            List result = session.createCriteria(LobbyUser.class)
-                    .add(Restrictions.eq("userId", Integer.parseInt(playerId))).list();
-            if (result.isEmpty()) {
+            List result = session.createCriteria(Request.class)
+                    .add(Restrictions.eq("player2", Integer.parseInt(userId))).list();
+            if (result.isEmpty())
+            {
                 session.close();
                 return gson.toJson("Fail: player not requested for match");
-            } else {
-                String returnVal = new String("Success: " + result.get(0).toString());
-                session.close();
-                return gson.toJson(returnVal);
             }
-        }catch (NumberFormatException e) {
+            else {
+                return gson.toJson(result).toString();
+            }
+        }catch (NumberFormatException e)
+        {
+                        session.close();
             return gson.toJson("Fail: invalid user id");
-        }finally {
+        }
+        finally
+        {
 //            session.close();
 //            HibernateUtil.getSessionFactory().close();
         }
