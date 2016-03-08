@@ -71,6 +71,8 @@ public class GameResource {
             game.setEncodedGameBoard(board);
             game.setState(boardState);
             session.save(game);
+            session.getTransaction().commit();
+            session.close();
             return new Gson().toJson(new JsonStatus("Success","game updated"));
         }
 
