@@ -115,7 +115,7 @@ public class RequestResource {
                         put("gameId", Integer.toString(newGame.getId()));
                         put("player1", Integer.toString(newGame.getPlayerOneId()));
                         put("player2", Integer.toString(newGame.getPlayerTwoId()));
-                        put("state", newGame.getState().name());
+                        put("state", newGame.getState());
                         put("board", newGame.getEncodedGameBoard());
                     }};
 

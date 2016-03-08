@@ -32,8 +32,7 @@ public class GameResource {
                     .add(Restrictions.or(Restrictions.eq("playerOneId", Integer.parseInt(id)), Restrictions.eq("playerTwoId", Integer.parseInt(id)))).list();
             if(!result.isEmpty())
             {
-                Gson g = new Gson();
-               return g.toJson(result.get(0));
+               return gson.toJson(result.get(0));
             }
             else
             {
