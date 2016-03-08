@@ -104,11 +104,11 @@ public class Game {
 
     }
 
-    public State getTurn() {
+    public State getState() {
         return state;
     }
 
-    public void setTurn(State turn) {
+    public void setState(State turn) {
         this.state = turn;
     }
 

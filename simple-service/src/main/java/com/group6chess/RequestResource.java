@@ -2,14 +2,11 @@ package com.group6chess;
 
 import com.group6chess.Models.DBUser;
 import com.group6chess.Models.Game;
-import com.group6chess.Models.LobbyUser;
 import com.group6chess.Models.Request;
 import com.group6chess.util.HibernateUtil;
-import com.sun.org.apache.regexp.internal.RE;
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.Restrictions;
 import com.google.gson.Gson;
-import sun.java2d.pipe.NullPipe;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -113,11 +110,12 @@ public class RequestResource {
                     session.save(newGame);
                     session.flush();
 
-                    Map<String, String> jsonThing = new HashMap<String, String>() {{
+                    Map<String, String> jsonThing = new HashMap<String, String>()
+                    {{
                         put("gameId", Integer.toString(newGame.getId()));
                         put("player1", Integer.toString(newGame.getPlayerOneId()));
                         put("player2", Integer.toString(newGame.getPlayerTwoId()));
-                        put("state", newGame.getTurn().name());
+                        put("state", newGame.getState().name());
                         put("board", newGame.getEncodedGameBoard());
                     }};
 
