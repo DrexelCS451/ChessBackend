@@ -32,7 +32,7 @@ public class GameResource {
         try {
             session.beginTransaction();
             List result = session.createCriteria(Game.class)
-                    .add(Restrictions.or(Restrictions.eq("playerOneId", id), Restrictions.eq("playerTwoId", id))).list();
+                    .add(Restrictions.or(Restrictions.eq("playerOneId", Integer.parseInt(id)), Restrictions.eq("playerTwoId", Integer.parseInt(id)))).list();
             if(!result.isEmpty())
             {
                 Gson g = new Gson();
