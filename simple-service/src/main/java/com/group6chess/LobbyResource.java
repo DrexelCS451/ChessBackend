@@ -3,11 +3,13 @@ package com.group6chess;
 /**
  * Created by Matt on 3/4/16.
  */
+import com.group6chess.Models.DBUser;
 import com.group6chess.Models.LobbyUser;
 import com.group6chess.util.HibernateUtil;
 import com.google.gson.JsonParser;
 import org.hibernate.classic.Session;
 import com.google.gson.Gson;
+import org.hibernate.criterion.Restrictions;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -45,14 +47,13 @@ public class LobbyResource {
         try {
             JsonParser parser = new JsonParser();
             session.beginTransaction();
-            session.save(new LobbyUser(Integer.parseInt(userId)));
+            DBUser user = (DBUser) session.get(DBUser.class, Integer.parseInt(userId));
+            session.save(new LobbyUser(Integer.parseInt(userId), user.getUsername()));
             session.getTransaction().commit();
             return gson.toJson("Success: User added to lobby");
-        }catch (NumberFormatException e){
+
+        }catch (Exception e){
             return gson.toJson("Fail: Invalid userId");
-        }
-        finally {
-            session.close();
         }
     }
 

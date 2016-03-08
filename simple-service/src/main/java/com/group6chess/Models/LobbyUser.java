@@ -18,13 +18,16 @@ public class LobbyUser {
     @Column(name = "userId", nullable = false)
     private int userId;
 
-    private DBUser user;
+    @Column(name = "username", nullable = false)
+    private String username;
 
     public LobbyUser() {
+
     }
 
-    public LobbyUser(int userId) {
+    public LobbyUser(int userId, String username) {
         this.userId = userId;
+        this.username = username;
     }
 
     public int getId() {

@@ -1,5 +1,6 @@
 package com.group6chess;
 
+import com.group6chess.Models.DBUser;
 import com.group6chess.Models.Game;
 import com.group6chess.Models.LobbyUser;
 import com.group6chess.Models.Request;
@@ -7,6 +8,7 @@ import com.group6chess.util.HibernateUtil;
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.Restrictions;
 import com.google.gson.Gson;
+import sun.java2d.pipe.NullPipe;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -40,17 +42,13 @@ public class RequestResource {
                 return gson.toJson("Fail: player not requested for match");
             }
             else {
+
                 return gson.toJson(result).toString();
             }
         }catch (NumberFormatException e)
         {
                         session.close();
             return gson.toJson("Fail: invalid user id");
-        }
-        finally
-        {
-//            session.close();
-//            HibernateUtil.getSessionFactory().close();
         }
 
     }
@@ -68,7 +66,9 @@ public class RequestResource {
         try {
             Request request = new Request(
                     Integer.parseInt(userid),
-                    Integer.parseInt(opponentId)
+                    Integer.parseInt(opponentId),
+                    ((DBUser) session.get(DBUser.class, Integer.parseInt(userid))).getUsername(),
+                    ((DBUser) session.get(DBUser.class, Integer.parseInt(opponentId))).getUsername()
             );
             session.beginTransaction();
 
@@ -76,15 +76,14 @@ public class RequestResource {
             session.getTransaction().commit();
             session.close();
 
-            return gson.toJson("Success: test");
+            return gson.toJson("Success: request sent");
 
         }catch (NumberFormatException e) {
             return gson.toJson("Fail: invalid user id");
-        }finally {
-//            session.close();
-//            HibernateUtil.getSessionFactory().close();
+        }catch (NullPointerException e){
+            e.printStackTrace();
+            return null;
         }
-
 
     }
 
