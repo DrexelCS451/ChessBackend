@@ -5,6 +5,7 @@ import com.group6chess.Models.Game;
 import com.group6chess.Models.LobbyUser;
 import com.group6chess.Models.Request;
 import com.group6chess.util.HibernateUtil;
+import com.sun.org.apache.regexp.internal.RE;
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.Restrictions;
 import com.google.gson.Gson;
@@ -35,7 +36,8 @@ public class RequestResource {
         try {
             session.beginTransaction();
             List result = session.createCriteria(Request.class)
-                    .add(Restrictions.eq("player2", Integer.parseInt(userId))).list();
+                    .add(Restrictions.eq("player2", Integer.parseInt(userId)))
+                    .add(Restrictions.eq("state", "0")).list();
             if (result.isEmpty())
             {
                 session.close();
@@ -89,41 +91,49 @@ public class RequestResource {
 
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
-    public String put(@QueryParam("userId") String userid){
-        System.out.println("test");
+    public String put(@QueryParam("requestId") String requestId, @QueryParam("accept") String accept){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Gson gson = new Gson();
         try {
             session.beginTransaction();
-            List result = session.createCriteria(Request.class)
-                    .add(Restrictions.eq("player2", Integer.parseInt(userid))).list();
-            if (result.isEmpty())
-            {
-                return gson.toJson("Failure: user has no requests");
+            Request request = (Request) session.get(Request.class, Integer.parseInt(requestId));
+            if(request == null){
+                //Its null soooo
+                return new Gson().toJson("Fail: request not found");
             }
             else
             {
-                //Create a game with the two
-                Request request = (Request) result.get(0);
-                final Game newGame = new Game(request.getPlayer1() , request.getPlayer2());
+                if (Boolean.parseBoolean(accept) == true) {
+                    //Create a game with the two players
+                    final Game newGame = new Game(request.getPlayer1(), request.getPlayer2());
 
-                request.setState(Request.State.accepted);
+                    request.setState(Request.State.accepted);
 
-                session.save(request);
-                session.save(newGame);
-                session.flush();
+                    session.save(request);
+                    session.save(newGame);
+                    session.flush();
 
-                Map<String,String> jsonThing = new HashMap<String, String>() {{
-                    put("gameId"  , Integer.toString(newGame.getId()));
-                    put("player1" , Integer.toString(newGame.getPlayerOneId()));
-                    put("player2" , Integer.toString(newGame.getPlayerTwoId()));
-                    put("state"   , newGame.getTurn().name());
-                    put("board"   , newGame.getEncodedGameBoard());
-                }};
+                    Map<String, String> jsonThing = new HashMap<String, String>() {{
+                        put("gameId", Integer.toString(newGame.getId()));
+                        put("player1", Integer.toString(newGame.getPlayerOneId()));
+                        put("player2", Integer.toString(newGame.getPlayerTwoId()));
+                        put("state", newGame.getTurn().name());
+                        put("board", newGame.getEncodedGameBoard());
+                    }};
 
-                String test = gson.toJson(jsonThing);
-                session.getTransaction().commit();
-                return gson.toJson(jsonThing.toString());
+                    String test = gson.toJson(jsonThing);
+                    session.getTransaction().commit();
+                    return gson.toJson(jsonThing.toString());
+                }
+                else
+                {
+                    //The request was denied
+                    request.setState(Request.State.denied);
+                    session.save(request);
+                    session.getTransaction().commit();
+                    session.close();
+                    return new Gson().toJson("Success: request denied");
+                }
 
             }
 

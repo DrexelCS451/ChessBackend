@@ -74,8 +74,6 @@ public class LobbyResource {
             }
             session.getTransaction().commit();
 
-//            String hql = "delete from lobby where username= :username";
-//            session.createQuery(hql).setString("username", userId).executeUpdate();
             session.close();
             return new Gson().toJson("Success: user deleted");
         }
