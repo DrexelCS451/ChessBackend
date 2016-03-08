@@ -9,8 +9,6 @@ import javax.persistence.*;
 @Table(name = "game")
 public class Game {
 
-    public static enum State { player1, player2, player1Win, player2Win, stalemate }
-
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     protected int id;
@@ -25,7 +23,7 @@ public class Game {
     protected String encodedGameBoard;
 
     @Column(name = "state")
-    protected State state;
+    protected String state;
 
     protected final static String INITIAL_GAME_BOARD =
             "0,0,BLACK_ROOK\n" +
@@ -97,18 +95,18 @@ public class Game {
         this.playerOneId = playerOneId;
         this.playerTwoId = playerTwoId;
         this.encodedGameBoard = INITIAL_GAME_BOARD;
-        this.state = State.player1;
+        this.state = "WHITE_TURN";
     }
 
     public Game() {
 
     }
 
-    public State getState() {
+    public String getState() {
         return state;
     }
 
-    public void setState(State turn) {
+    public void setState(String turn) {
         this.state = turn;
     }
 

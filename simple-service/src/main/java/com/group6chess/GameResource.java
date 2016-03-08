@@ -69,25 +69,7 @@ public class GameResource {
         {
             //Got a good game board
             game.setEncodedGameBoard(board);
-            switch (boardState) {
-                case "White_TURN":
-                    game.setState(Game.State.player2);
-                    break;
-                case "BLACK_TURN":
-                    game.setState(Game.State.player1);
-                    break;
-                case "BLACK_WIN" :
-                    game.setState(Game.State.player2Win);
-                    break;
-                case "WHITE_WIN" :
-                    game.setState(Game.State.player1Win);
-                    break;
-                case "STALEMATE" :
-                    game.setState(Game.State.stalemate);
-                    break;
-            }
-
-
+            game.setState(boardState);
 
             session.save(game);
             return new Gson().toJson("Success: game board updated");
