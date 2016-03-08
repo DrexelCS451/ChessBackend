@@ -2,6 +2,7 @@ package com.group6chess;
 
 import com.group6chess.Models.DBUser;
 import com.group6chess.Models.Game;
+import com.group6chess.Models.JsonStatus;
 import com.group6chess.Models.Request;
 import com.group6chess.util.HibernateUtil;
 import org.hibernate.classic.Session;
@@ -10,9 +11,7 @@ import com.google.gson.Gson;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Matt on 3/4/16.
@@ -38,7 +37,7 @@ public class RequestResource {
             if (result.isEmpty())
             {
                 session.close();
-                return gson.toJson("Fail: player not requested for match");
+                return gson.toJson(new JsonStatus("Fail","Player not requested"));
             }
             else {
 
@@ -47,7 +46,7 @@ public class RequestResource {
         }catch (Exception e)
         {
                         session.close();
-            return gson.toJson("Fail: invalid user id");
+            return gson.toJson(new JsonStatus("Fail","Invalid Id"));
         }
 
     }
@@ -75,10 +74,10 @@ public class RequestResource {
             session.getTransaction().commit();
             session.close();
 
-            return gson.toJson("Success: request sent");
+            return gson.toJson(new JsonStatus("Success","request sent"));
 
         }catch (NumberFormatException e) {
-            return gson.toJson("Fail: invalid user id");
+            return gson.toJson(new JsonStatus("Fail","invalid id"));
         }catch (NullPointerException e){
             e.printStackTrace();
             return null;
@@ -96,7 +95,7 @@ public class RequestResource {
             Request request = (Request) session.get(Request.class, Integer.parseInt(requestId));
             if(request == null){
                 //Its null soooo
-                return new Gson().toJson("Fail: request not found");
+                return new Gson().toJson(new JsonStatus("Fail","request not found"));
             }
             else
             {
@@ -122,14 +121,14 @@ public class RequestResource {
                     session.save(request);
                     session.getTransaction().commit();
                     session.close();
-                    return new Gson().toJson("Success: request denied");
+                    return new Gson().toJson(new JsonStatus("Success","request denied"));
                 }
 
             }
 
         }catch (NumberFormatException e)
         {
-            return gson.toJson("Fail: invalid input");
+            return gson.toJson(new JsonStatus("Fail","invalid input"));
         }
     }
 

@@ -4,6 +4,7 @@ package com.group6chess;
  * Created by Matt on 3/4/16.
  */
 import com.group6chess.Models.DBUser;
+import com.group6chess.Models.JsonStatus;
 import com.group6chess.Models.LobbyUser;
 import com.group6chess.util.HibernateUtil;
 import com.google.gson.JsonParser;
@@ -53,10 +54,10 @@ public class LobbyResource {
             DBUser user = (DBUser) session.get(DBUser.class, Integer.parseInt(userId));
             session.save(new LobbyUser(Integer.parseInt(userId), user.getUsername()));
             session.getTransaction().commit();
-            return gson.toJson("Success: User added to lobby");
+            return gson.toJson(new JsonStatus("Success","user added"));
 
         }catch (Exception e){
-            return gson.toJson("Fail: Invalid userId");
+            return gson.toJson(new JsonStatus("Fail","invalid id"));
         }
     }
 
@@ -75,11 +76,11 @@ public class LobbyResource {
             session.getTransaction().commit();
 
             session.close();
-            return new Gson().toJson("Success: user deleted");
+            return new Gson().toJson(new JsonStatus("Success","user deleted"));
         }
         catch (Exception e){
             e.printStackTrace();
-            return new Gson().toJson("Fail: User not found");
+            return new Gson().toJson(new JsonStatus("Fail","user not found"));
         }
     }
 

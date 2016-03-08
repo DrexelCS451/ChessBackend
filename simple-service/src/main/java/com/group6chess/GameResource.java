@@ -1,6 +1,7 @@
 package com.group6chess;
 
 import com.group6chess.Models.Game;
+import com.group6chess.Models.JsonStatus;
 import com.group6chess.util.HibernateUtil;
 import org.hibernate.classic.Session;
 import com.google.gson.Gson;
@@ -36,11 +37,11 @@ public class GameResource {
             }
             else
             {
-                return gson.toJson("Fail: Failed");
+                return gson.toJson(new JsonStatus("Fail","no games"));
             }
 
         }catch (Exception e){
-            return gson.toJson("Fail: Failed");
+            return gson.toJson(new JsonStatus("Fail","error"));
         }
     }
 
@@ -62,7 +63,7 @@ public class GameResource {
         if (game == null)
         {
             //Bad game board
-            return new Gson().toJson("Fail: bad board input");
+            return new Gson().toJson(new JsonStatus("Fail","bad board input"));
         }
         else
         {
@@ -70,7 +71,7 @@ public class GameResource {
             game.setEncodedGameBoard(board);
             game.setState(boardState);
             session.save(game);
-            return new Gson().toJson("Success: game board updated");
+            return new Gson().toJson(new JsonStatus("Success","game updated"));
         }
 
 
