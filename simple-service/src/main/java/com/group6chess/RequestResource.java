@@ -92,13 +92,20 @@ public class RequestResource {
         Gson gson = new Gson();
         try {
             session.beginTransaction();
-            Request request = (Request) session.get(Request.class, Integer.parseInt(requestId));
-            if(request == null){
-                //Its null soooo
+            //Request request = (Request) session.get(Request.class, Integer.parseInt(requestId));
+
+
+            List result = session.createCriteria(Request.class)
+                    .add(Restrictions.eq("Id", Integer.parseInt(requestId))).list();
+
+
+            if(result.isEmpty())
+            {
+               // request = (Request) session.get(Request.class, Integer.parseInt(requestId));
                 return new Gson().toJson(new JsonStatus("Fail","request not found"));
             }
-            else
-            {
+            else {
+                Request request = (Request)result.get(0);
                 if (Boolean.parseBoolean(accept) == true) {
                     //Create a game with the two players
                     final Game newGame = new Game(request.getPlayer1(), request.getPlayer2());
@@ -113,20 +120,18 @@ public class RequestResource {
                     session.getTransaction().commit();
 
                     return gson.toJson(newGame);
-                }
-                else
-                {
+                } else {
                     //The request was denied
                     request.setState(Request.State.denied);
                     session.save(request);
                     session.getTransaction().commit();
                     session.close();
-                    return new Gson().toJson(new JsonStatus("Success","request denied"));
+                    return new Gson().toJson(new JsonStatus("Success", "request denied"));
                 }
 
             }
 
-        }catch (NumberFormatException e)
+        }catch (Exception e)
         {
             return gson.toJson(new JsonStatus("Fail","invalid input"));
         }
