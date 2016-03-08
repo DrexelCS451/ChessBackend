@@ -29,6 +29,7 @@ public class RequestResource {
     @Produces(MediaType.APPLICATION_JSON)
     public String get(@QueryParam("userId") String userId) {
         Session session = HibernateUtil.getSessionFactory().openSession();
+        session.clear();
         Gson gson = new Gson();
         try {
             session.beginTransaction();
@@ -90,6 +91,7 @@ public class RequestResource {
     @Produces(MediaType.APPLICATION_JSON)
     public String put(@QueryParam("requestId") String requestId, @QueryParam("accept") String accept){
         Session session = HibernateUtil.getSessionFactory().openSession();
+        session.clear();
         Gson gson = new Gson();
         try {
             session.beginTransaction();
@@ -103,25 +105,17 @@ public class RequestResource {
                 if (Boolean.parseBoolean(accept) == true) {
                     //Create a game with the two players
                     final Game newGame = new Game(request.getPlayer1(), request.getPlayer2());
+                    newGame.setState("WHITE_TURN");
+                    newGame.setEncodedGameBoard(Game.INITIAL_GAME_BOARD);
 
                     request.setState(Request.State.accepted);
 
                     session.save(request);
                     session.save(newGame);
                     session.flush();
-
-                    Map<String, String> jsonThing = new HashMap<String, String>()
-                    {{
-                        put("gameId", Integer.toString(newGame.getId()));
-                        put("player1", Integer.toString(newGame.getPlayerOneId()));
-                        put("player2", Integer.toString(newGame.getPlayerTwoId()));
-                        put("state", newGame.getState());
-                        put("board", newGame.getEncodedGameBoard());
-                    }};
-
-                    String test = gson.toJson(jsonThing);
                     session.getTransaction().commit();
-                    return gson.toJson(jsonThing.toString());
+
+                    return gson.toJson(newGame);
                 }
                 else
                 {

@@ -56,6 +56,7 @@ public class GameResource {
         System.out.println(gameId + "\n" + board + "\n" + boardState);
 
         Session session = HibernateUtil.getSessionFactory().openSession();
+        session.clear();
         session.beginTransaction();
         Game game = (Game) session.get(Game.class, Integer.parseInt(gameId));
 

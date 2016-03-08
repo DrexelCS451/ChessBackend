@@ -25,7 +25,7 @@ public class Game {
     @Column(name = "state")
     protected String state;
 
-    protected final static String INITIAL_GAME_BOARD =
+    public final static String INITIAL_GAME_BOARD =
             "0,0,BLACK_ROOK\n" +
             "0,1,BLACK_PAWN\n" +
             "0,2,EMPTY\n" +
