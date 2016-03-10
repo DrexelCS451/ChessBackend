@@ -49,12 +49,21 @@ public class LobbyResource {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Gson gson = new Gson();
         try {
-            JsonParser parser = new JsonParser();
-            session.beginTransaction();
-            DBUser user = (DBUser) session.get(DBUser.class, Integer.parseInt(userId));
-            session.save(new LobbyUser(Integer.parseInt(userId), user.getUsername()));
-            session.getTransaction().commit();
-            return gson.toJson(new JsonStatus("Success","user added"));
+            List result = session.createCriteria(LobbyUser.class).add(Restrictions.eq("userId", Integer.parseInt(userId))).list();
+            if(result.isEmpty())
+            {
+                session.beginTransaction();
+                DBUser user = (DBUser) session.get(DBUser.class, Integer.parseInt(userId));
+                session.save(new LobbyUser(Integer.parseInt(userId), user.getUsername()));
+                session.getTransaction().commit();
+                return gson.toJson(new JsonStatus("Success","user added"));
+            }
+            else
+            {
+                return gson.toJson(new JsonStatus("Fail","already in lobby"));
+            }
+
+
 
         }catch (Exception e){
             return gson.toJson(new JsonStatus("Fail","invalid id"));
